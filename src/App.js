@@ -1,12 +1,14 @@
 import React from 'react';
 import './App.css';
 import Content from './components/content';
-import Header from './components/header';
-import Footer from './components/footer';
+import Create from './components/create';
+import Read from './components/read';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Card from 'react-bootstrap/Card';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { memberExpression } from '@babel/types';
 
 class App extends React.Component {
 
@@ -25,9 +27,10 @@ class App extends React.Component {
           </Navbar>
 
           <Switch>
-            <Route exact path="/" component={Header} />
-            <Route path="/create" component={Footer} />
-            <Route path="/read" component={Content} />
+            <Route exact path="/content" component={Content} />
+            <Route path="/create" component={Create} />
+            <Route path="/read" component={Read} />
+           
           </Switch>
 
         </div>
