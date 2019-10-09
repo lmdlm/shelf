@@ -4,11 +4,11 @@ import Content from './components/content';
 import Create from './components/create';
 import Read from './components/read';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Card from 'react-bootstrap/Card';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { memberExpression } from '@babel/types';
+//import Card from 'react-bootstrap/Card';
 
 class App extends React.Component {
 

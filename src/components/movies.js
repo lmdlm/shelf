@@ -7,7 +7,7 @@ class Movies extends React.Component {
     return this.props.myMovies.map((movie)=>{
         //console.log(movie);
 
-        return <MovieItem movie = {movie}></MovieItem>//need to 'return' each item/object from map
+        return <MovieItem key={movie.imdbID} movie = {movie}></MovieItem>//need to 'return' each item/object from map
     });
     
 }
