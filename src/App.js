@@ -7,7 +7,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
-import { memberExpression } from '@babel/types';
 //import Card from 'react-bootstrap/Card';
 
 class App extends React.Component {
