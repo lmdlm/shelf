@@ -5,12 +5,12 @@ class Movies extends React.Component {
 
   render(){//bit that display on screen
     return this.props.myMovies.map((movie)=>{
-        console.log(movie);
+        //console.log(movie);
 
-        return <MovieItem key={movie.Poster} movie = {movie}></MovieItem>//need to 'return' each item/object from map
+        return <MovieItem key={movie._id} movie = {movie}></MovieItem>//need to 'return' each item/object from map
     });
     
-}
+  }
         
 }
 

@@ -11,7 +11,7 @@ class Read extends React.Component {
     componentDidMount() {
       axios.get('http://localhost:4000/api/movies')
       .then((response)=>{
-        this.setState({movies:response.data.movies})
+        this.setState({movies:response.data.movie})
       })
       .catch((error)=>{
         console.log(error);
@@ -21,7 +21,7 @@ class Read extends React.Component {
   render(){
     return (
       <div>
-      <h1>Hello From Read component!!!</h1>
+      <h1>Hello From Read Component!!!</h1>
       <Movies myMovies={this.state.movies}></Movies>
       </div>
     );
