@@ -8,7 +8,7 @@ class Create extends React.Component {
     this.state = {
       Title: '',
       Year: '',
-      Poster: ''
+      Poster: '',
     };
 
     this.handleChangeMovieTitle = this.handleChangeMovieTitle.bind(this);
@@ -32,16 +32,16 @@ class Create extends React.Component {
   handleSubmit(e) {
     alert('Movie Title: ' + this.state.Title + " Year: " + this.state.Year + " Poster: " + this.state.Poster);
     e.preventDefault();
-    
+
     const movieObject = {
       title: this.state.Title,
       year: this.state.Year,
       poster: this.state.Poster
     }
 
-  axios.post('http://localhost:4000/api/movies', movieObject)
-  .then()
-  .catch();
+    axios.post('http://localhost:4000/api/movies', movieObject)
+      .then()
+      .catch();
   }
   render() {
     return (
