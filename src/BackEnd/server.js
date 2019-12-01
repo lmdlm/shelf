@@ -95,7 +95,7 @@ app.get('/api/books/:id', (req, res) => {
 
 const userSchema = new Schema({
     username: String,
-    email: String,
+    email: Strng,
 })
 
 const UserModel = mongoose.model('user', userSchema);
