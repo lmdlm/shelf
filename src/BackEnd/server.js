@@ -6,29 +6,17 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-app.use(cors());
+app.use(express.static(path.join(__dirname, '../../build')));
+app.use('/static', express.static(path.join(__dirname, 'build//static')));
 
-const mongoDB = 'mongodb+srv://admin:admin@cluster0-cofws.mongodb.net/test?retryWrites=true&w=majority';
-mongoose.connect(mongoDB, { useNewUrlParser: true });
-
-const Schema = mongoose.Schema;
-
-const movieSchema = new Schema({
-    title: String,
-    year: String,
-    poster: String
-})
-
-const MovieModel = mongoose.model('movies', movieSchema);
-
-
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+// app.use(cors());
+// app.use(function (req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+//     res.header("Access-Control-Allow-Headers",
+//         "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -36,56 +24,57 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+const mongoDB = 'mongodb+srv://admin:admin@cluster0-cofws.mongodb.net/test?retryWrites=true&w=majority';
+mongoose.connect(mongoDB, { useNewUrlParser: true });
 
-app.get('/', (req, res) => res.send('Hello World!'))
+const Schema = mongoose.Schema;
 
-app.get('/URL', (req, res) => {
-    res.send('Welcome to URL!');
+const bookSchema = new Schema({
+    genre: String,
+    year: String,
+    cover: String
 })
 
-app.get('/hello/:name', (req, res) => {
-    console.log(req.params.name);
-    res.send('Hello ' + req.params.name);
-})
+const BookModel = mongoose.model('book', bookSchema);
 
-app.post('/api/movies', (req, res) => {
+app.post('/api/books', (req, res) => {
     console.log('Post request successful');
-    console.log(req.body.title);
+    console.log(req.body.genre);
     console.log(req.body.year);
-    console.log(req.body.poster);
-    res.json('Data uploaded');
+    console.log(req.body.cover);
+   // res.json('Data uploaded');
 
 
-    MovieModel.create({
-        title: req.body.title,
+    BookModel.create({
+        genre: req.body.genre,
         year: req.body.year,
-        poster: req.body.poster
+        cover: req.body.cover
     });
-    res.send('Item added');
+    res.json('Item added');
 })
 
-app.get('/api/movies', (req, res) => {
+app.get('/api/books', (req, res) => {
 
-    MovieModel.find((err, data) => {
+    BookModel.find((err, data) => {
         console.log(data);
-        res.json({ movie: data })
+        res.json({ book : data })
     });
 })
 
-app.delete('/api/movies/:id', (req, res) => {
+app.delete('/api/books/:id', (req, res) => {
     console.log(req.params.id);
 
-    MovieModel.deleteOne({ _id: req.params.id }, (error, data) => {
+    BookModel.deleteOne({ _id: req.params.id }, (error, data) => {
         if (error)
             res.json(error);
         res.json(data);
     })
 })
 
-app.put('/api/movies/:id', (req, res)=>{
-    console.log("Edit: "+req.params.id);
+app.put('/api/books/:id', (req, res)=>{
+    console.log("Edit: " +req.params.id);
 
-    MovieModel.findByIdAndUpdate(req.params.id, 
+    BookModel.findByIdAndUpdate(req.params.id, 
         req.body, 
         {new:true},
         (error, data)=>{
@@ -93,45 +82,41 @@ app.put('/api/movies/:id', (req, res)=>{
         })
 })
 
-app.get('/api/movies/:id', (req, res) => {
+app.get('/api/books/:id', (req, res) => {
     console.log(req.params.id);
 
-    MovieModel.findById(req.params.id,
-        (err, data) => {
+    BookModel.findById(req.params.id,
+        (error, data) => {
             res.json(data);
         });
 })
 
-// const myMovies = [
-//     {
-//     "Title":"Avengers: Infinity War",
-//     "Year":"2018",
-//     "Poster":"https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg"
-//     },
-//     {
-//     "Title":"Captain America: Civil War",
-//     "Year":"2016",
-//     "Poster":"https://m.media-amazon.com/images/M/MV5BMjQ0MTgyNjAxMV5BMl5BanBnXkFtZTgwNjUzMDkyODE@._V1_SX300.jpg"
-//     }
-//     ]
+/*USER SIGN UP*/
 
-// res.status(200).json({movies:myMovies, 
-//                       message:'Operation completed sucessfully'})
-
-
-app.get('/test', (req, res) => {
-    res.sendFile(path.join(__dirname + '/index.html'));
+const userSchema = new Schema({
+    username: String,
+    email: String,
 })
 
-app.get('/name', (req, res) => {
-    console.log('Hello ' + req.query.firstname + ' ' + req.query.lastname);
-    res.send('Hello ' + req.query.firstname + ' ' + req.query.lastname);
+const UserModel = mongoose.model('user', userSchema);
+//copy of user post
+app.post('/api/users', (req, res) => {
+    console.log('Post request successful!!!');
+    console.log('Name '+req.body.username);
+    console.log('Email '+req.body.email);
+    //res.json('Data uploaded');
+
+    UserModel.create({
+        username: req.body.username,
+        email: req.body.email
+    });
+    res.json('Item added');
 })
 
-app.post('/name', (req, res) => {
-    console.log('Hello ' + req.query.firstname + ' ' + req.query.lastname);
-    console.log(req.body.firstname);
-    res.send('Hello ' + req.body.firstname + ' ' + req.body.lastname);
-})
+/*USER SIGN UP END */
+
+app.get('*', (req,res) =>{
+    res.sendFile(path.join(__dirname+'/../../build/index.html'));
+    });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
